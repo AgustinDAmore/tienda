@@ -10,7 +10,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
     MYSQL_HOST = "localhost"
     MYSQL_USER = "root"
-    MYSQL_PASSWORD = ""
+    MYSQL_PASSWORD = "meii@#Mz#Xwx4qq"
     MYSQL_DB = "tienda"
 
 
