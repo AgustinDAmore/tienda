@@ -2,7 +2,7 @@ from flask import Flask, flash, redirect, render_template, request, url_for
 import flask
 from flask_wtf.csrf import CSRFProtect
 from flask_mysqldb import MySQL
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
 from .models.ModeloUsuario import ModeloUsuario
 from .models.ModeloLibro import ModeloLibro
@@ -21,10 +21,6 @@ login_manager_app = LoginManager(app)
 def load_user(id):
     return ModeloUsuario.obtener_por_id(db, id)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -32,9 +28,10 @@ def login():
         usuario_logeado = ModeloUsuario.login(db, usuario)
         if usuario_logeado != None:
             login_user(usuario_logeado)
+            flash('Bienvenido {}'.format(usuario_logeado.usuario), 'success')
             return redirect(url_for('index'))
         else:
-            flash(LOGIN_CREDENCIALESINVALIDAS)
+            flash(LOGIN_CREDENCIALESINVALIDAS,'warning')
             return render_template('auth/login.html')
     else:
         return render_template('auth/login.html')
@@ -42,11 +39,31 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    flash(LOGOUT)
+    flash(LOGOUT, 'success')
     return redirect(url_for('login'))
 
+@app.route('/')
+@login_required
+def index():
+    if current_user.is_authenticated:
+        if current_user.tipousuario.id == 1:
+            libros_vendidos = []
+            data = {
+                'titulo': 'Libros Vendidos',
+                'libros_vendidos': libros_vendidos
+            }
+        else:
+            compras = []
+            data = {
+                'titulo': 'Mis compras',
+                'compras': compras
+            }
+        return render_template('index.html', data=data)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/libros')
+@login_required
 def listar_libros():
     try:
         libros=ModeloLibro.listar_libros(db)
@@ -58,8 +75,12 @@ def listar_libros():
 def pagina_no_encontrada(error):
     return render_template('errores/404.html'), 404
 
+def pagina_no_autorizada(error):
+    return redirect(url_for('login'))
+
 def inicializar_app(config):
     app.config.from_object(config)
     csrf.init_app(app)
     app.register_error_handler(404, pagina_no_encontrada)
+    app.register_error_handler(401, pagina_no_autorizada)
     return app
