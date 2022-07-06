@@ -9,6 +9,8 @@ from .models.ModeloLibro import ModeloLibro
 
 from .models.entities.Usuario import Usuario
 
+from .consts import *
+
 app = Flask(__name__)
 
 csrf = CSRFProtect()
@@ -32,7 +34,7 @@ def login():
             login_user(usuario_logeado)
             return redirect(url_for('index'))
         else:
-            flash('Credenciales incorrectas')
+            flash(LOGIN_CREDENCIALESINVALIDAS)
             return render_template('auth/login.html')
     else:
         return render_template('auth/login.html')
@@ -40,6 +42,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
+    flash(LOGOUT)
     return redirect(url_for('login'))
 
 
