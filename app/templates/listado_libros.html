@@ -1,10 +1,15 @@
 {% extends './body.html' %}
 
 {% block title %}Listado de Libros{% endblock %}
+
+{% block customCSS %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/listado_libros.css') }}">
+{% endblock %}
+
 {% block container %}
 <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-        <h1>{{ data.titulo }}</h1>
+        <h1 align="center">{{ data.titulo }}</h1>
     </div>
 </div>
 <hr/>

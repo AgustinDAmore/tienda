@@ -44,7 +44,7 @@
                         if(data.exito){
                             notificacionSwal('¡Éxito!', '¡Gracias por su Compra!','success','Ok!');
                         }else{
-                        notificacionSwal('¡Alerta!', data.mensaje,'warning','Ok');
+                            notificacionSwal('¡Alerta!', data.mensaje,'warning','Ok');
                         }
                     }).catch(error=>{
                         notificacionSwal('¡Error!',error,'error','Cerrar');
