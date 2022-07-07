@@ -22,6 +22,7 @@ db = MySQL(app)
 login_manager_app = LoginManager(app)
 mail = Mail()
 
+
 @login_manager_app.user_loader
 def load_user(id):
     return ModeloUsuario.obtener_por_id(db, id)
@@ -29,6 +30,7 @@ def load_user(id):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        print(request.form)
         usuario = Usuario(None, request.form['usuario'], request.form['password'], None)
         usuario_logeado = ModeloUsuario.login(db, usuario)
         if usuario_logeado != None:
@@ -74,6 +76,20 @@ def index():
     else:
         return redirect(url_for('login'))
 
+@app.route('/crearusuario', methods=['GET', 'POST'])
+def crearusuario():
+    if request.method == 'POST':
+        nuevoUsuario = (request.form['usuario'],request.form['password'],request.form['passwordTwo'])
+        usuario_creado = ModeloUsuario.crear_usuario(db, nuevoUsuario)
+        if usuario_creado != None:
+            flash('Usuario creado correctamente', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash('Las Contraseñas no coinciden', 'warning')
+            return render_template('auth/crearusuario.html')
+    else:
+        return render_template('auth/crearusuario.html')
+    
 @app.route('/libros')
 @login_required
 def listar_libros():

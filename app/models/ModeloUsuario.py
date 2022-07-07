@@ -1,6 +1,3 @@
-from telnetlib import Telnet
-from werkzeug.security import check_password_hash, generate_password_hash
-
 from .entities.Usuario import Usuario
 from .entities.TipoUsuario import TipoUsuario
 
@@ -26,6 +23,21 @@ class ModeloUsuario():
         except Exception as ex:
             raise Exception(ex)
 
+    @classmethod
+    def crear_usuario(self,db,nuevoUsuario):
+        # validar contraseña
+        if nuevoUsuario[1] != nuevoUsuario[2]:
+            return None
+        try:
+            usuario = Usuario(0, nuevoUsuario[0], Usuario.crear_password(nuevoUsuario[1]), 2)
+            cursor = db.connection.cursor()
+            sql = """INSERT INTO usuario (id, usuario, password, tipousuario_id)
+                    VALUES ('NULL', '{0}', '{1}', 2) """.format(usuario.usuario, usuario.password)
+            cursor.execute(sql)
+            db.connection.commit()
+            return True
+        except Exception as ex:
+            raise Exception(ex)
     @classmethod
     def obtener_por_id(self,db,id):
         try:

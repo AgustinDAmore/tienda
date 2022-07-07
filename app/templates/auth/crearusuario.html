@@ -1,19 +1,19 @@
 {% extends './base.html' %}
 
-{% block title %} Inicio de Sesion {% endblock %}
+{% block title %} Crear Nuevo Usuario {% endblock %}
 
 {% block customCSS %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 {% endblock %}
 
 {% block body %}
-<form class="form-signin w-100 m-auto" action="/login" method="post">
+<form class="form-signin w-100 m-auto" action="/crearusuario" method="post">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <img class="mb-4" src="{{ url_for('static', filename='img/flask.svg') }}" alt="" width="72" height="57">
-    <h1 class="h3 mb-3 fw-normal">Inicio de Sesi&oacute;n</h1>
+    <h1 class="h3 mb-3 fw-normal">Crear Nuevo Usuario</h1>
 
     <div class="form-floating">
-        <label for="Usuario">Usuario</label>
+        <label for="Usuario">Nombre Usuario</label>
         <input type="text" class="form-control" id="Usuario" name="usuario" placeholder="Usuario" minlength="6" 
         maxlength="20"
         required autofocus>
@@ -25,8 +25,14 @@
         maxlength="20"
         required>
     </div>
+    <div class="form-floating">
+        <label for="floatingPassword">Repita su Contraseña</label>
+        <input type="password" class="form-control" id="passwordTwo" name="passwordTwo" placeholder="Contraseña" minlength="6"
+        maxlength="20"
+        required>
+    </div>
     <br />
-    <button class="w-100 btn btn-lg btn-dark" type="submit">Iniciar Sesi&oacute;n</button>
+    <button class="w-100 btn btn-lg btn-dark" type="submit">Crear!</button>
     <br />
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
@@ -38,12 +44,9 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
+
     <f class="mt-5 mb-3 text-muted">@agus_damore</p>
   </form>
-  <br />
-  <form action="/crearusuario" method="get">
-    <button class="w-100 btn btn-lg btn-dark" type="submit">Crear Nuevo Usuario</button>
-  <br />
 {% endblock %}
 
 {% block customJS %}
