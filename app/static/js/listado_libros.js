@@ -21,7 +21,7 @@
             cancelButtonText: 'No, Gracias',
             confirmButtonText: 'Si, ¡comprarlo!',
             confirmButtonColor: '#2b3436',
-            backdrop: 'rgba(0,0,0,0.7)',
+            backdrop: 'rgba(0,0,0,0.8)',
             showLoaderOnConfirm: true,
                 preConfirm: async () => {
                     return await fetch(`${window.origin}/comprarLibro`, {

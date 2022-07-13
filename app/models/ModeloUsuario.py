@@ -38,6 +38,7 @@ class ModeloUsuario():
             return True
         except Exception as ex:
             raise Exception(ex)
+
     @classmethod
     def obtener_por_id(self,db,id):
         try:
