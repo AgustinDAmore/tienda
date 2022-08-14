@@ -25,7 +25,7 @@ class ModeloCompra():
             data = cursor.fetchall()
             compras = []
             for row in data:
-                lib=Libro(row[1],row[2],None,None,row[3])
+                lib=Libro(row[1],row[2],None,None,row[3],None)
                 com=Compra(None,lib,usuario,row[0])
                 compras.append(com)
             return compras

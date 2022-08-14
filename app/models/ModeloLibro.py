@@ -47,7 +47,7 @@ class ModeloLibro():
             data = cursor.fetchall()
             libros = []
             for row in data:
-                lib=Libro(row[0],row[1],None,None,row[2])
+                lib=Libro(row[0],row[1],None,None,row[2],None)
                 lib.unidades_vendidas = int(row[3])
                 libros.append(lib)
             return libros

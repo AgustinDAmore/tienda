@@ -2,7 +2,6 @@ from flask import Flask, flash, redirect, render_template, request, url_for, jso
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from flask_mail import Mail
 
 from .models.ModeloCompra import ModeloCompra
 from .models.ModeloLibro import ModeloLibro
@@ -13,15 +12,13 @@ from .models.entities.Libro import Libro
 from .models.entities.Usuario import Usuario
 
 from .consts import *
-from .emails import confirmacion_compra
+from .whatsapp import confirmacion_compra
 
 app = Flask(__name__)
 
 csrf = CSRFProtect()
 db = MySQL(app)
 login_manager_app = LoginManager(app)
-mail = Mail()
-
 
 @login_manager_app.user_loader
 def load_user(id):
@@ -128,7 +125,6 @@ def pagina_no_autorizada(error):
 def inicializar_app(config):
     app.config.from_object(config)
     csrf.init_app(app)
-    mail.init_app(app)
-    app.register_error_handler(404, pagina_no_encontrada)
+    app.register_error_handler(404, pagina_no_encontrada) #418
     app.register_error_handler(401, pagina_no_autorizada)
     return app
