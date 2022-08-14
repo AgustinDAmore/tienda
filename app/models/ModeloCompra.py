@@ -6,8 +6,8 @@ class ModeloCompra():
     def registrar_compra(cls, db, compra):
         try:
             cursor = db.connection.cursor()
-            sql = """INSERT INTO compra (uuid, libro_isbn, usuario_id)
-                     VALUES (uuid(), '{0}', {1})""".format(compra.libro.isbn, compra.usuario.id)
+            sql = f"""INSERT INTO compra (uuid, libro_isbn, usuario_id)
+                     VALUES (uuid(), '{compra.libro.isbn}', {compra.usuario.id})"""
             cursor.execute(sql)
             db.connection.commit()
             return True
@@ -18,9 +18,9 @@ class ModeloCompra():
     def obtener_compras_por_usuario(cls, db, usuario):
         try:
             cursor = db.connection.cursor()
-            sql = """SELECT COM.fecha, LIB.isbn, LIB.titulo, LIB.precio
+            sql = f"""SELECT COM.fecha, LIB.isbn, LIB.titulo, LIB.precio
             FROM compra COM JOIN libro LIB ON COM.libro_isbn = LIB.isbn
-            WHERE COM.usuario_id = {0}""".format(usuario.id)
+            WHERE COM.usuario_id = {usuario.id}"""
             cursor.execute(sql)
             data = cursor.fetchall()
             compras = []
