@@ -6,6 +6,6 @@ def confirmacion_compra(app, WhatsApp,usuario,libro):
 Hola {usuario.usuario}
 Te adjuntamos el enlace al libro {libro.titulo}
 {libro.url}
-Espero lo disfrutes! :)""")
+Espero lo disfrutes! :)""",9,True,2)
     except Exception as ex:
         raise Exception(ex)
