@@ -117,7 +117,7 @@ def comprar_libro():
     return jsonify(data)
 
 def pagina_no_encontrada(error):
-    return render_template('errores/404.html'), 404
+    return render_template('errores/418.html'), 404
 
 def pagina_no_autorizada(error):
     return redirect(url_for('login'))
